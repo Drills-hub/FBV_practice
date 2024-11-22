@@ -22,6 +22,7 @@ SECRET_KEY = env("SECRET_KEY")
 
 ALLOWED_HOSTS = []
 
+# 커스텀 유저 선언
 AUTH_USER_MODEL = "accounts.User"
 
 # Application definition
@@ -33,10 +34,19 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    # third-party apps
     "django_extensions",
     "rest_framework",
+    # local apps
     "accounts",
 ]
+
+# DRF설정- 세션방식의 인증 사용
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.SessionAuthentication",
+    ),
+}
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",

@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 
+# 커스텀 유저모델
 class User(AbstractUser):
     GENDER_CHOICES = [
         ("M", "남성"),
@@ -19,3 +20,7 @@ class User(AbstractUser):
 
     def __str__(self):
         return self.username
+
+    def soft_delete(self):
+        self.is_active = False
+        self.save()
