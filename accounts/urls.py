@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import signup, login_session, logout_session, login_jwt, logout_jwt
+from .views import signup, login_session, logout_session, login_jwt, logout_jwt, user_delete
 
 urlpatterns = [
     path("", signup, name="sginup"),
@@ -7,4 +7,5 @@ urlpatterns = [
     path("logout_session/", logout_session, name="logout_session"),
     path("login_jwt/", login_jwt, name="login_jwt"),
     path("logout_jwt/", logout_jwt, name="logout_jwt"),
+    path("user_delete/", user_delete, name="user_delete"),
 ]

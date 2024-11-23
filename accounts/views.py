@@ -1,3 +1,5 @@
+from django.shortcuts import get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -45,7 +47,9 @@ def logout_session(request):
 
 # jwt 로그인 구현
 @api_view(["POST"])
+@csrf_exempt
 def login_jwt(request):
+
     username = request.data.get("username")
     password = request.data.get("password")
     user = authenticate(request, username=username, password=password)
@@ -73,7 +77,18 @@ def logout_jwt(request):
         return Response({"message": "리프레시 토큰이 필요합니다"}, status=400)
 
     else:
-        token = OutstandingToken.objects.get(token=refresh_token)
+        token = get_object_or_404(OutstandingToken, token=refresh_token)
         BlacklistedToken.objects.create(token=token)
 
     return Response({"detail": "로그아웃 성공"}, status=205)
+
+
+# 회원탈퇴
+@api_view(["DELETE"])
+def user_delete(request):
+    if request.user.is_authenticated:
+        request.user.soft_delete()
+        return Response({"detail": "회원탈퇴 성공"}, status=200)
+    else:
+        return Response({"detail": "잘못된 접근"}, status=404)
+
