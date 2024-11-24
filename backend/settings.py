@@ -1,3 +1,4 @@
+from datetime import timedelta
 from pathlib import Path
 import os
 import environ
@@ -81,6 +82,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "backend.wsgi.application"
 
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ROTATE_REFRESH_TOKENS": True,
+    "BLACKLIST_AFTER_ROTATION": True,
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
