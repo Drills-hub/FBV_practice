@@ -1,5 +1,4 @@
 from django.shortcuts import get_object_or_404
-from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth import authenticate, login, logout
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -50,7 +49,6 @@ def logout_session(request):
 
 # jwt 로그인 구현
 @api_view(["POST"])
-@csrf_exempt
 def login_jwt(request):
 
     username = request.data.get("username")
@@ -149,7 +147,7 @@ def user_password(request):
         return Response({"message": "기존 비밀번호가 일치하지 않습니다."}, status=400)
 
     if old_password == new_password:
-        return Response({"message": "기존 비밀번호와 같은 비밀번호입니다."}, status=400)
+        return Response({"message": "기존 비밀번호와 같은 비밀번호로 변경할 수 없습니다."}, status=400)
 
     request.user.set_password(new_password)
     request.user.save()
